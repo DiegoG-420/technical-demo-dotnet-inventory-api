@@ -7,9 +7,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Technical Demo Inventory API",
+        Title = "Demo Técnica API de Inventario",
         Version = "v1",
-        Description = "Demo REST API for inventory, stock and movement operations built with .NET."
+        Description = "API REST de demostración para operaciones de inventario, stock y movimientos construida con .NET."
     });
 });
 
@@ -18,7 +18,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Technical Demo Inventory API v1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo Técnica API de Inventario v1");
     options.RoutePrefix = "swagger";
 });
 
@@ -27,41 +27,43 @@ app.MapGet("/", () => Results.Redirect("/swagger"))
 
 app.MapGet("/health", () => Results.Ok(new
 {
-    status = "Healthy",
-    service = "Inventory.Api",
-    timestampUtc = DateTime.UtcNow
+    estado = "Saludable",
+    servicio = "Inventory.Api",
+    fechaHoraUtc = DateTime.UtcNow
 }))
 .WithName("HealthCheck")
-.WithTags("Health");
+.WithTags("Salud");
 
 var products = new List<ProductDto>
 {
-    new(1, "Industrial Sensor", "SEN-001", "Electronics", 25, true),
-    new(2, "Hydraulic Valve", "VAL-204", "Mechanical", 12, true),
-    new(3, "Control Panel Module", "CPM-778", "Automation", 8, true),
-    new(4, "Safety Relay", "SR-440", "Electrical", 0, false)
+    new(1, "Sensor industrial", "SEN-001", "Electrónica", 25, true),
+    new(2, "Válvula hidráulica", "VAL-204", "Mecánica", 12, true),
+    new(3, "Módulo de panel de control", "MPC-778", "Automatización", 8, true),
+    new(4, "Relevador de seguridad", "REL-440", "Eléctrico", 0, false)
 };
 
 var movements = new List<MovementDto>
 {
-    new(1, 1, "IN", 10, "Initial stock load", DateTime.UtcNow.AddDays(-4)),
-    new(2, 2, "OUT", 2, "Maintenance dispatch", DateTime.UtcNow.AddDays(-2)),
-    new(3, 3, "IN", 5, "Warehouse adjustment", DateTime.UtcNow.AddDays(-1))
+    new(1, 1, "ENTRADA", 10, "Carga inicial de inventario", DateTime.UtcNow.AddDays(-4)),
+    new(2, 2, "SALIDA", 2, "Despacho para mantenimiento", DateTime.UtcNow.AddDays(-2)),
+    new(3, 3, "ENTRADA", 5, "Ajuste de almacén", DateTime.UtcNow.AddDays(-1))
 };
 
-app.MapGet("/api/products", () => Results.Ok(products))
-    .WithName("GetProducts")
-    .WithTags("Products");
+app.MapGet("/api/productos", () => Results.Ok(products))
+    .WithName("ObtenerProductos")
+    .WithTags("Productos");
 
-app.MapGet("/api/products/{id:int}", (int id) =>
+app.MapGet("/api/productos/{id:int}", (int id) =>
 {
     var product = products.FirstOrDefault(item => item.Id == id);
-    return product is null ? Results.NotFound(new { message = "Product not found." }) : Results.Ok(product);
+    return product is null
+        ? Results.NotFound(new { mensaje = "Producto no encontrado." })
+        : Results.Ok(product);
 })
-.WithName("GetProductById")
-.WithTags("Products");
+.WithName("ObtenerProductoPorId")
+.WithTags("Productos");
 
-app.MapGet("/api/stock/summary", () =>
+app.MapGet("/api/stock/resumen", () =>
 {
     var totalProducts = products.Count;
     var activeProducts = products.Count(item => item.IsActive);
@@ -70,31 +72,31 @@ app.MapGet("/api/stock/summary", () =>
 
     return Results.Ok(new StockSummaryDto(totalProducts, activeProducts, totalUnits, outOfStock));
 })
-.WithName("GetStockSummary")
+.WithName("ObtenerResumenStock")
 .WithTags("Stock");
 
-app.MapPost("/api/movements", (CreateMovementRequest request) =>
+app.MapPost("/api/movimientos", (CreateMovementRequest request) =>
 {
     if (request.ProductId <= 0)
     {
-        return Results.BadRequest(new { message = "ProductId must be greater than zero." });
+        return Results.BadRequest(new { mensaje = "ProductId debe ser mayor que cero." });
     }
 
     if (request.Quantity <= 0)
     {
-        return Results.BadRequest(new { message = "Quantity must be greater than zero." });
+        return Results.BadRequest(new { mensaje = "Quantity debe ser mayor que cero." });
     }
 
-    if (request.Type is not ("IN" or "OUT"))
+    if (request.Type is not ("ENTRADA" or "SALIDA"))
     {
-        return Results.BadRequest(new { message = "Type must be IN or OUT." });
+        return Results.BadRequest(new { mensaje = "Type debe ser ENTRADA o SALIDA." });
     }
 
     var product = products.FirstOrDefault(item => item.Id == request.ProductId);
 
     if (product is null)
     {
-        return Results.NotFound(new { message = "Product not found." });
+        return Results.NotFound(new { mensaje = "Producto no encontrado." });
     }
 
     var movement = new MovementDto(
@@ -108,10 +110,10 @@ app.MapPost("/api/movements", (CreateMovementRequest request) =>
 
     movements.Add(movement);
 
-    return Results.Created($"/api/movements/{movement.Id}", movement);
+    return Results.Created($"/api/movimientos/{movement.Id}", movement);
 })
-.WithName("CreateMovement")
-.WithTags("Movements");
+.WithName("CrearMovimiento")
+.WithTags("Movimientos");
 
 app.Run();
 
