@@ -1,5 +1,8 @@
 # Demo Técnica API de Inventario
 
+[![.NET CI](https://github.com/DiegoG-420/technical-demo-dotnet-inventory-api/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/DiegoG-420/technical-demo-dotnet-inventory-api/actions/workflows/dotnet-ci.yml)
+
+
 API REST de demostración construida con .NET 9 para simular operaciones básicas de inventario, stock y movimientos dentro de un entorno empresarial.
 
 Este proyecto forma parte de mi portafolio técnico profesional y demuestra habilidades en backend, diseño de APIs, documentación técnica, pruebas automatizadas y preparación para flujos DevOps.
@@ -181,5 +184,6 @@ Software Engineer enfocado en backend, APIs, automatización, integración y sis
 Portafolio:
 
 https://portfolio.ssitecnologicos.com
+
 
 
