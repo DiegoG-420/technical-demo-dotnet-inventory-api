@@ -66,9 +66,9 @@ app.MapGet("/api/productos/{id:int}", (int id) =>
 app.MapGet("/api/stock/resumen", () =>
 {
     var totalProducts = products.Count;
-    var activeProducts = products.Count(item => item.IsActive);
-    var totalUnits = products.Sum(item => item.StockQuantity);
-    var outOfStock = products.Count(item => item.StockQuantity <= 0);
+    var activeProducts = products.Count(item => item.Activo);
+    var totalUnits = products.Sum(item => item.CantidadStock);
+    var outOfStock = products.Count(item => item.CantidadStock <= 0);
 
     return Results.Ok(new StockSummaryDto(totalProducts, activeProducts, totalUnits, outOfStock));
 })
@@ -77,22 +77,22 @@ app.MapGet("/api/stock/resumen", () =>
 
 app.MapPost("/api/movimientos", (CreateMovementRequest request) =>
 {
-    if (request.ProductId <= 0)
+    if (request.ProductoId <= 0)
     {
-        return Results.BadRequest(new { mensaje = "ProductId debe ser mayor que cero." });
+        return Results.BadRequest(new { mensaje = "ProductoId debe ser mayor que cero." });
     }
 
-    if (request.Quantity <= 0)
+    if (request.Cantidad <= 0)
     {
-        return Results.BadRequest(new { mensaje = "Quantity debe ser mayor que cero." });
+        return Results.BadRequest(new { mensaje = "Cantidad debe ser mayor que cero." });
     }
 
-    if (request.Type is not ("ENTRADA" or "SALIDA"))
+    if (request.Tipo is not ("ENTRADA" or "SALIDA"))
     {
-        return Results.BadRequest(new { mensaje = "Type debe ser ENTRADA o SALIDA." });
+        return Results.BadRequest(new { mensaje = "Tipo debe ser ENTRADA o SALIDA." });
     }
 
-    var product = products.FirstOrDefault(item => item.Id == request.ProductId);
+    var product = products.FirstOrDefault(item => item.Id == request.ProductoId);
 
     if (product is null)
     {
@@ -101,10 +101,10 @@ app.MapPost("/api/movimientos", (CreateMovementRequest request) =>
 
     var movement = new MovementDto(
         movements.Count + 1,
-        request.ProductId,
-        request.Type,
-        request.Quantity,
-        request.Description,
+        request.ProductoId,
+        request.Tipo,
+        request.Cantidad,
+        request.Descripcion,
         DateTime.UtcNow
     );
 
@@ -119,32 +119,33 @@ app.Run();
 
 public record ProductDto(
     int Id,
-    string Name,
+    string Nombre,
     string Sku,
-    string Category,
-    int StockQuantity,
-    bool IsActive
+    string Categoria,
+    int CantidadStock,
+    bool Activo
 );
 
 public record StockSummaryDto(
-    int TotalProducts,
-    int ActiveProducts,
-    int TotalUnits,
-    int OutOfStockProducts
+    int TotalProductos,
+    int ProductosActivos,
+    int UnidadesTotales,
+    int ProductosSinStock
 );
 
 public record MovementDto(
     int Id,
-    int ProductId,
-    string Type,
-    int Quantity,
-    string Description,
-    DateTime CreatedAtUtc
+    int ProductoId,
+    string Tipo,
+    int Cantidad,
+    string Descripcion,
+    DateTime FechaCreacionUtc
 );
 
 public record CreateMovementRequest(
-    int ProductId,
-    string Type,
-    int Quantity,
-    string Description
+    int ProductoId,
+    string Tipo,
+    int Cantidad,
+    string Descripcion
 );
+
