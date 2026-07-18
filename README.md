@@ -2,7 +2,6 @@
 
 [![.NET CI](https://github.com/DiegoG-420/technical-demo-dotnet-inventory-api/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/DiegoG-420/technical-demo-dotnet-inventory-api/actions/workflows/dotnet-ci.yml)
 
-
 API REST de demostración construida con .NET 9 para simular operaciones básicas de inventario, stock y movimientos dentro de un entorno empresarial.
 
 Este proyecto forma parte de mi portafolio técnico profesional y demuestra habilidades en backend, diseño de APIs, documentación técnica, pruebas automatizadas y preparación para flujos DevOps.
@@ -24,6 +23,8 @@ Demostrar una API pequeña, clara y funcional que permita:
 - Swagger / Swashbuckle
 - xUnit
 - Git
+- Docker
+- GitHub Actions
 - PowerShell
 
 ## Endpoints disponibles
@@ -38,35 +39,29 @@ Demostrar una API pequeña, clara y funcional que permita:
 
 ## Ejemplo de respuesta: health
 
-JSON:
-
-{
-  "estado": "Saludable",
-  "servicio": "Inventory.Api",
-  "fechaHoraUtc": "2026-07-18T04:45:21.1765428Z"
-}
+    {
+      "estado": "Saludable",
+      "servicio": "Inventory.Api",
+      "fechaHoraUtc": "2026-07-18T04:45:21.1765428Z"
+    }
 
 ## Ejemplo de respuesta: resumen de stock
 
-JSON:
-
-{
-  "totalProductos": 4,
-  "productosActivos": 3,
-  "unidadesTotales": 45,
-  "productosSinStock": 1
-}
+    {
+      "totalProductos": 4,
+      "productosActivos": 3,
+      "unidadesTotales": 45,
+      "productosSinStock": 1
+    }
 
 ## Ejemplo de request: crear movimiento
 
-JSON:
-
-{
-  "productoId": 1,
-  "tipo": "ENTRADA",
-  "cantidad": 5,
-  "descripcion": "Ajuste de inventario de demostración"
-}
+    {
+      "productoId": 1,
+      "tipo": "ENTRADA",
+      "cantidad": 5,
+      "descripcion": "Ajuste de inventario de demostración"
+    }
 
 Valores válidos para tipo:
 
@@ -77,42 +72,41 @@ Valores válidos para tipo:
 
 Desde la raíz del repositorio:
 
-dotnet restore
-dotnet build
+    dotnet restore
+    dotnet build
 
 Para iniciar la API:
 
-cd src/Inventory.Api
-dotnet run
+    cd src/Inventory.Api
+    dotnet run
 
 La API se ejecuta localmente en:
 
-http://localhost:5087
+    http://localhost:5087
 
 Swagger UI:
 
-http://localhost:5087/swagger
-
+    http://localhost:5087/swagger
 
 ## Ejecución con Docker
 
-El proyecto incluye un `Dockerfile` multi-stage para compilar y ejecutar la API en un contenedor.
+El proyecto incluye un Dockerfile multi-stage para compilar y ejecutar la API en un contenedor.
 
 Construir la imagen:
 
-docker build -t inventory-api-demo .
+    docker build -t inventory-api-demo .
 
 Ejecutar el contenedor:
 
-docker run --rm -p 8080:8080 inventory-api-demo
+    docker run --rm -p 8080:8080 inventory-api-demo
 
 La API quedará disponible en:
 
-http://localhost:8080
+    http://localhost:8080
 
 Swagger UI:
 
-http://localhost:8080/swagger
+    http://localhost:8080/swagger
 
 Nota: esta sección queda preparada para ejecución con Docker Desktop o cualquier entorno compatible con Docker.
 
@@ -120,27 +114,31 @@ Nota: esta sección queda preparada para ejecución con Docker Desktop o cualqui
 
 Desde la raíz del repositorio:
 
-dotnet test
+    dotnet test
 
 ## Estructura del proyecto
 
-technical-demo-dotnet-inventory-api/
-  src/
-    Inventory.Api/
-      Program.cs
-      Inventory.Api.csproj
-  tests/
-    Inventory.Api.Tests/
-      Inventory.Api.Tests.csproj
-      UnitTest1.cs
-  global.json
-  TechnicalDemo.InventoryApi.slnx
-  README.md
-
+    technical-demo-dotnet-inventory-api/
+      src/
+        Inventory.Api/
+          Program.cs
+          Inventory.Api.csproj
+      tests/
+        Inventory.Api.Tests/
+          Inventory.Api.Tests.csproj
+          UnitTest1.cs
+      .github/
+        workflows/
+          dotnet-ci.yml
+      .dockerignore
+      Dockerfile
+      global.json
+      TechnicalDemo.InventoryApi.slnx
+      README.md
 
 ## Integración continua
 
-El repositorio incluye un workflow de GitHub Actions para validar automáticamente el proyecto en cada push o pull request hacia la rama `main`.
+El repositorio incluye un workflow de GitHub Actions para validar automáticamente el proyecto en cada push o pull request hacia la rama main.
 
 El pipeline ejecuta:
 
@@ -150,7 +148,7 @@ El pipeline ejecuta:
 
 Archivo del workflow:
 
-.github/workflows/dotnet-ci.yml
+    .github/workflows/dotnet-ci.yml
 
 ## Estado actual
 
@@ -160,20 +158,20 @@ Archivo del workflow:
 - Respuestas JSON en español.
 - Build local validado.
 - Pruebas automatizadas ejecutándose correctamente.
+- Dockerfile agregado.
+- GitHub Actions CI configurado.
 - Rama principal: main.
 
 ## Roadmap
 
 Próximas mejoras planeadas:
 
-- Agregar pruebas de integración para endpoints principales.
-- Agregar Dockerfile.
-- Agregar GitHub Actions para CI.
-- Publicar badge de build en README.
+- Agregar más pruebas de integración para escenarios de error.
 - Agregar ejemplos curl.
 - Agregar manejo centralizado de errores.
 - Separar modelos y servicios en carpetas dedicadas.
 - Evaluar persistencia con base de datos en una segunda versión.
+- Desplegar la API públicamente para agregar un botón Probar API en el portafolio.
 
 ## Autor
 
@@ -183,7 +181,4 @@ Software Engineer enfocado en backend, APIs, automatización, integración y sis
 
 Portafolio:
 
-https://portfolio.ssitecnologicos.com
-
-
-
+    https://portfolio.ssitecnologicos.com
