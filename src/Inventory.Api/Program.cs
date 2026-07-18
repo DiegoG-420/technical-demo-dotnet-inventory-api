@@ -149,3 +149,5 @@ public record CreateMovementRequest(
     string Descripcion
 );
 
+public partial class Program { }
+
