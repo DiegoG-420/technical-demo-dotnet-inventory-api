@@ -90,6 +90,29 @@ Swagger UI:
 
 http://localhost:5087/swagger
 
+
+## Ejecución con Docker
+
+El proyecto incluye un `Dockerfile` multi-stage para compilar y ejecutar la API en un contenedor.
+
+Construir la imagen:
+
+docker build -t inventory-api-demo .
+
+Ejecutar el contenedor:
+
+docker run --rm -p 8080:8080 inventory-api-demo
+
+La API quedará disponible en:
+
+http://localhost:8080
+
+Swagger UI:
+
+http://localhost:8080/swagger
+
+Nota: esta sección queda preparada para ejecución con Docker Desktop o cualquier entorno compatible con Docker.
+
 ## Cómo ejecutar pruebas
 
 Desde la raíz del repositorio:
@@ -143,3 +166,4 @@ Software Engineer enfocado en backend, APIs, automatización, integración y sis
 Portafolio:
 
 https://portfolio.ssitecnologicos.com
+
