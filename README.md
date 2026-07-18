@@ -134,6 +134,21 @@ technical-demo-dotnet-inventory-api/
   TechnicalDemo.InventoryApi.slnx
   README.md
 
+
+## Integración continua
+
+El repositorio incluye un workflow de GitHub Actions para validar automáticamente el proyecto en cada push o pull request hacia la rama `main`.
+
+El pipeline ejecuta:
+
+- Restauración de dependencias.
+- Compilación en modo Release.
+- Ejecución de pruebas automatizadas.
+
+Archivo del workflow:
+
+.github/workflows/dotnet-ci.yml
+
 ## Estado actual
 
 - API funcional.
@@ -166,4 +181,5 @@ Software Engineer enfocado en backend, APIs, automatización, integración y sis
 Portafolio:
 
 https://portfolio.ssitecnologicos.com
+
 
